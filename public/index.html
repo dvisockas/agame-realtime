@@ -11,14 +11,22 @@
 
     var socket = io();
 
-    socket.emit('login', username);
+    var user = {
+        username: "",
+        location: {
+            lat: 55.708087,
+            lng: 21.141169
+        }
+    };
+
+    socket.emit('login', user);
 
     socket.on('user joined', function (user) {
-        console.log(user);
+        console.log("User joined", user);
     });
 
     socket.on('user left', function (user) {
-        console.log(user);
+        console.log("User left", user);
     });
 </script>
 </body>

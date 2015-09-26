@@ -6,7 +6,7 @@ module.exports = function (grunt) {
                 options: {
                     nodeArgs: ['--debug'],
                     env: {
-                        PORT: '8080'
+                        PORT: '80'
                     },
                     callback: function (nodemon) {
                         nodemon.on('log', function (event) {

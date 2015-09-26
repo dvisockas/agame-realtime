@@ -18,9 +18,10 @@ var gameServer = new Server();
 
 io.on('connection', function (socket) {
     //User creates his account
-    socket.on('login', function (username) {
+    socket.on('login', function (user) {
         socket.currentUser = new User();
-        socket.currentUser.username = username;
+        socket.currentUser.username = user.username;
+        socket.currentUser.location = user.location;
 
         gameServer.addUser(socket.currentUser);
 
