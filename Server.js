@@ -1,17 +1,17 @@
 var Server = function() {};
 
-Server.prototype.usersCount = 0;
+Server.prototype.users = [];
 
-Server.prototype.userConnected = function() {
-    this.usersCount++;
-
-    console.log("User connected. Count: " + this.usersCount);
+Server.prototype.addUser = function(user) {
+    this.users.push(user);
 };
 
-Server.prototype.userDisconnected = function() {
-    this.usersCount--;
+Server.prototype.removeUser = function(user) {
+    var index = this.users.indexOf(user);
+    if (index > -1)
+        this.users.splice(index, 1);
 
-    console.log("User disconnected. Count: " + this.usersCount);
+    console.log(this.users);
 };
 
 module.exports = Server;

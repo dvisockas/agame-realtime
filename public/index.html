@@ -7,7 +7,11 @@
 <body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    var username = "";
+
     var socket = io();
+
+    socket.emit('login', username);
 </script>
 </body>
 </html>
