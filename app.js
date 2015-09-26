@@ -43,13 +43,27 @@ io.on('connection', function (socket) {
         console.log("User " + socket.currentUser.username + " disconnected. Count: " + gameServer.users.length);
     });
 
-    socket.on('location changed', function (location) {
-        socket.currentUser.location = location;
+    socket.on('location changed', function (user) {
+        socket.currentUser = user;
 
         socket.broadcast.emit('user location changed', {
             user: socket.currentUser
         });
+    });
 
-        console.log("User " + socket.currentUser.username + " disconnected. Count: " + gameServer.users.length);
+    socket.on('building built', function (building) {
+        gameServer.addBuilding(building);
+
+        socket.broadcast.emit('user building built', {
+            building: building
+        });
+    });
+
+    socket.on('building demolished', function (building) {
+        gameServer.removeBuilding(building);
+
+        socket.broadcast.emit('user building demolished', {
+            building: building
+        });
     });
 });
