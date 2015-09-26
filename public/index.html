@@ -19,7 +19,14 @@
         }
     };
 
+    var location = {
+        lat: 55.708087,
+        lng: 21.141169
+    };
+
     socket.emit('login', user);
+
+    socket.emit('location changed', location);
 
     socket.on('user joined', function (user) {
         console.log("User joined", user);
@@ -27,6 +34,10 @@
 
     socket.on('user left', function (user) {
         console.log("User left", user);
+    });
+
+    socket.on('user location changed', function (user) {
+        console.log("User location changed", user);
     });
 </script>
 </body>

@@ -42,4 +42,14 @@ io.on('connection', function (socket) {
 
         console.log("User " + socket.currentUser.username + " disconnected. Count: " + gameServer.users.length);
     });
+
+    socket.on('location changed', function (location) {
+        socket.currentUser.location = location;
+
+        socket.broadcast.emit('user location changed', {
+            user: socket.currentUser
+        });
+
+        console.log("User " + socket.currentUser.username + " disconnected. Count: " + gameServer.users.length);
+    });
 });
