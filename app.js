@@ -24,6 +24,8 @@ io.on('connection', function (socket) {
 
         gameServer.addUser(socket.currentUser);
 
+        socket.emit('activeUsers', gameServer.users);
+
         socket.broadcast.emit('user joined', {
             user: socket.currentUser
         });
