@@ -25,7 +25,7 @@ io.on('connection', function (socket) {
         gameServer.addUser(socket.currentUser);
 
         socket.broadcast.emit('user joined', {
-            usersCount: gameServer.users.length
+            user: socket.currentUser
         });
 
         console.log("User " + socket.currentUser.username + " connected. Count: " + gameServer.users.length);
@@ -36,7 +36,7 @@ io.on('connection', function (socket) {
         gameServer.removeUser(socket.currentUser);
 
         socket.broadcast.emit('user left', {
-            usersCount: gameServer.users.length
+            user: socket.currentUser
         });
 
         console.log("User " + socket.currentUser.username + " disconnected. Count: " + gameServer.users.length);

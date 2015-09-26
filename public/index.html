@@ -12,6 +12,14 @@
     var socket = io();
 
     socket.emit('login', username);
+
+    socket.on('user joined', function (user) {
+        console.log(user);
+    });
+
+    socket.on('user left', function (user) {
+        console.log(user);
+    });
 </script>
 </body>
 </html>
