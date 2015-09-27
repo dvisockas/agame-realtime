@@ -7,19 +7,11 @@
 <body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var username = "";
-
     var socket = io();
 
-    var user = {
-        name: "",
-        location: {
-            lat: 55.708087,
-            lng: 21.141169
-        }
-    };
-
-    socket.emit('login', user);
+    socket.on('active users', function (users) {
+        console.log("Active users", users);
+    });
 
     socket.on('user joined', function (user) {
         console.log("User joined", user);
@@ -29,25 +21,17 @@
         console.log("User left", user);
     });
 
-//    socket.emit('location changed', user);
-
     socket.on('user location changed', function (user) {
         console.log("User location changed", user);
     });
 
-    var building = {};
-
-//    socket.emit('building built', building);
-
-    socket.on('user building built', function (building) {
-        console.log("User building built", building);
-    });
-
-//    socket.emit('building demolished', building);
-
-    socket.on('user building demolished', function (building) {
-        console.log("User building demolished", building);
-    });
+//    socket.on('user building built', function (building) {
+//        console.log("User building built", building);
+//    });
+//
+//    socket.on('user building demolished', function (building) {
+//        console.log("User building demolished", building);
+//    });
 </script>
 </body>
 </html>

@@ -22,9 +22,11 @@ io.on('connection', function (socket) {
         socket.currentUser = new User();
         socket.currentUser = user;
 
-        gameServer.addUser(socket.currentUser);
+        gameServer.addUser(user);
 
-        socket.emit('activeUsers', gameServer.users);
+        socket.emit('active users', gameServer.users.filter(function (user) {
+            return user.id !== socket.currentUser.id;
+        }));
 
         socket.broadcast.emit('user joined', {
             user: socket.currentUser
@@ -32,34 +34,37 @@ io.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function () {
-        gameServer.removeUser(socket.currentUser);
+        if (socket.currentUser !== undefined) {
+            gameServer.removeUser(socket.currentUser);
 
-        socket.broadcast.emit('user left', {
-            user: socket.currentUser
-        });
+            socket.broadcast.emit('user left', {
+                user: socket.currentUser
+            });
+        }
     });
 
     socket.on('location changed', function (user) {
         socket.currentUser = user;
+        gameServer.updateUser(user);
 
         socket.broadcast.emit('user location changed', {
             user: socket.currentUser
         });
     });
 
-    socket.on('building built', function (building) {
-        gameServer.addBuilding(building);
-
-        socket.broadcast.emit('user building built', {
-            building: building
-        });
-    });
-
-    socket.on('building demolished', function (building) {
-        gameServer.removeBuilding(building);
-
-        socket.broadcast.emit('user building demolished', {
-            building: building
-        });
-    });
+    //socket.on('building built', function (building) {
+    //    gameServer.addBuilding(building);
+    //
+    //    socket.broadcast.emit('user building built', {
+    //        building: building
+    //    });
+    //});
+    //
+    //socket.on('building demolished', function (building) {
+    //    gameServer.removeBuilding(building);
+    //
+    //    socket.broadcast.emit('user building demolished', {
+    //        building: building
+    //    });
+    //});
 });
