@@ -25,13 +25,87 @@
         console.log("User location changed", user);
     });
 
-//    socket.on('user building built', function (building) {
-//        console.log("User building built", building);
-//    });
-//
-//    socket.on('user building demolished', function (building) {
-//        console.log("User building demolished", building);
-//    });
+    //    socket.on('user building built', function (building) {
+    //        console.log("User building built", building);
+    //    });
+    //
+    //    socket.on('user building demolished', function (building) {
+    //        console.log("User building demolished", building);
+    //    });
+
+    var user = {
+        id: null
+    };
+    var action = null;
+
+    var opponentAction = null;
+
+    var challenge = function () {
+        socket.emit('rps send invite', user);
+    };
+
+    var accept = function () {
+        socket.emit('rps response invite', {user: user, accepted: true});
+    };
+
+    var chooseAction = function(act) {
+        action = act;
+        socket.emit('rps action', {user: user, action: act});
+
+        if (opponentAction != null) {
+            whoWon(action, opponentAction);
+            opponentAction = null;
+            action = null;
+        }
+    };
+
+    socket.on('rps get invite', function (u) {
+        if (user.id == u.id) {
+//            Show accept and decline buttons and on button click emit this
+            console.log("Got RPS invite");
+        }
+    });
+
+    socket.on('rps responded invite', function (data) {
+        if (user.id == data.user.id) {
+            if (data.accepted) {
+                console.log('Accepted RPS invite');
+                //Show game actions
+            }
+            else {
+                console.log('Declined RPS invite');
+                //Nothing
+            }
+        }
+    });
+
+    socket.on('rps responded action', function(data) {
+        if (user.id == data.user.id) {
+            if (action != null) {
+                var action1 = action;
+                var action2 = data.action;
+                whoWon(action1, action2);
+                action = null;
+            }
+            else {
+                opponentAction = data.action;
+            }
+        }
+    });
+
+    var whoWon = function(action1, action2) {
+        if (action1 == action2)
+            console.log("Tie");
+        else if (
+                action1 == 1 && action2 == 3 ||
+                action1 == 3 && action2 == 2 ||
+                action1 == 2 && action2 == 1
+        ) {
+            console.log("You won");
+        }
+        else
+            console.log("You lost");
+    }
 </script>
 </body>
 </html>

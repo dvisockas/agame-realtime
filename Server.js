@@ -1,9 +1,10 @@
-var Server = function() {};
+var Server = function () {
+};
 
 Server.prototype.users = [];
 Server.prototype.buildings = [];
 
-Server.prototype.addUser = function(user) {
+Server.prototype.addUser = function (user) {
     this.users.splice(user.id, 0, user);
 };
 
@@ -11,8 +12,8 @@ Server.prototype.updateUser = function (user) {
     this.users[user.id] = user;
 };
 
-Server.prototype.removeUser = function(user) {
-    this.users.forEach(function(u, i) {
+Server.prototype.removeUser = function (user) {
+    this.users.forEach(function (u, i) {
         if (user.id == u.id)
             this.users.splice(u.id, 1);
     }, this);

@@ -52,6 +52,21 @@ io.on('connection', function (socket) {
         });
     });
 
+    socket.on('rps send invite', function (user) {
+        socket.currentUser = user;
+        socket.broadcast.emit('rps get invite', socket.currentUser);
+    });
+
+    socket.on('rps response invite', function (data) {
+        socket.broadcast.emit('rps responded invite', data);
+        console.log("rps response invite", data);
+    });
+
+    socket.on('rps action', function (data) {
+        //socket.emit('')
+        socket.broadcast.emit('rps responded action', data);
+    });
+
     //socket.on('building built', function (building) {
     //    gameServer.addBuilding(building);
     //
